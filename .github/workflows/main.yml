@@ -1,0 +1,32 @@
+name: complex
+
+on:
+  push:
+    branch: ['master']
+
+env:
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+  steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2
+    - name: docker
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: docker build
+      run: docker build -t phamtuan239/react-test -f ./client/Dockerfile.dev .
+    - name: docker run
+      run: docker run -e CI=true phamtuan239/react-test npm run test
+    - name: docker after run
+      run:
+        - docker build -t travis99/multi-client ./client
+        - docker build -t travis99/multi-backend ./backend
+        - docker build -t travis99/multi-nginx ./nginx
+        - docker build -t travis99/multi-worker ./worker
+        - docker push travis99/multi-client
+        - docker push travis99/multi-backend
+        - docker push travis99/multi-nginx
+        - docker push travis99/multi-worker
