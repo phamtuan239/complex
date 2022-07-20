@@ -26,6 +26,7 @@ jobs:
           - docker build -t travis99/multi-backend ./backend
           - docker build -t travis99/multi-nginx ./nginx
           - docker build -t travis99/multi-worker ./worker
+          - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - docker push travis99/multi-client
           - docker push travis99/multi-backend
           - docker push travis99/multi-nginx
