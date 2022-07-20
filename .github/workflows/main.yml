@@ -22,12 +22,12 @@ jobs:
         run: docker run -e CI=true phamtuan239/react-test npm run test
       - name: docker after run
         run: |
-          - docker build -t travis99/multi-client ./client
-          - docker build -t travis99/multi-backend ./backend
-          - docker build -t travis99/multi-nginx ./nginx
-          - docker build -t travis99/multi-worker ./worker
           - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          - docker push travis99/multi-client
-          - docker push travis99/multi-backend
-          - docker push travis99/multi-nginx
-          - docker push travis99/multi-worker
+          - docker build -t phamtuan239/multi-client ./client
+          - docker build -t phamtuan239/multi-backend ./backend
+          - docker build -t phamtuan239/multi-nginx ./nginx
+          - docker build -t phamtuan239/multi-worker ./worker
+          - docker push phamtuan239/multi-client
+          - docker push phamtuan239/multi-backend
+          - docker push phamtuan239/multi-nginx
+          - docker push phamtuan239/multi-worker
