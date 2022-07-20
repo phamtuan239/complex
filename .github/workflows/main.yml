@@ -16,13 +16,12 @@ jobs:
         uses: actions/checkout@v2
       - name: docker
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-      - name: docker build
-        run: docker build -t phamtuan239/react-test -f ./client/Dockerfile.dev ./client
-      - name: docker run
-        run: docker run -e CI=true phamtuan239/react-test npm run test
+      # - name: docker build
+      #   run: docker build -t phamtuan239/react-test -f ./client/Dockerfile.dev ./client
+      # - name: docker run
+      #   run: docker run -e CI=true phamtuan239/react-test npm run test
       - name: docker after run
         run: |
-          - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           - docker build -t phamtuan239/multi-client ./client
           - docker build -t phamtuan239/multi-backend ./backend
           - docker build -t phamtuan239/multi-nginx ./nginx
