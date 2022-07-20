@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:16-alpine as builder
 
 WORKDIR /usr/complex/app/client
 
@@ -16,4 +16,4 @@ EXPOSE 3000
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build /usr/complex/app/client/build /usr/share/nginx/html
+COPY --from=builder /usr/complex/app/client/build /usr/share/nginx/html
