@@ -21,7 +21,7 @@ jobs:
       - name: docker run
         run: docker run -e CI=true phamtuan239/react-test npm run test
       - name: docker after run
-        run:
+        run: |
           - docker build -t travis99/multi-client ./client
           - docker build -t travis99/multi-backend ./backend
           - docker build -t travis99/multi-nginx ./nginx
