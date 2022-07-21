@@ -1,58 +1,31 @@
-version: '3'
-
+version: "3"
 services:
-  postgres:
-    image: postgres:14-alpine
-    environment:
-      - POSTGRES_PASSWORD=phamtuan239
-  redis:
-    image: redis
-  nginx-proxy:
-    depends_on:
-      - backend
-      - client
-    restart: always
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile.dev
-    ports:
-      - '3050:80'
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile.dev
-    restart: on-failure
-    container_name: backend
-    volumes:
-      - ./:/usr/complex/app/backend
-      - /usr/complex/app/backend/node_modules
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=phamtuan239
-      - PGPORT=5432
-      - POSTGRES_HOST_AUTH_METHOD=trust
   client:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    restart: on-failure
-    container_name: client
-    volumes:
-      - ./:/usr/complex/app/client
-      - /usr/complex/app/client/node_modules
+    image: "travis99/multi-client"
+    mem_limit: 128m
+    hostname: client
+  server:
+    image: "travis99/multi-server"
+    mem_limit: 128m
+    hostname: api
     environment:
-      - WDS_SOCKET_PORT=0
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
   worker:
-    build:
-      dockerfile: Dockerfile.dev
-      context: ./worker
-    volumes:
-      - ./:/usr/complex/app/worker
-      - /usr/complex/app/worker/node_modules
+    image: "travis99/multi-worker"
+    mem_limit: 128m
+    hostname: worker
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+  nginx:
+    image: "travis99/multi-nginx"
+    mem_limit: 128m
+    hostname: nginx
+    ports:
+      - "80:80"
