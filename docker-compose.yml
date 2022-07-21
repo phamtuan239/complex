@@ -4,13 +4,11 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile
-    mem_limit: 128m
     container_name: client
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    mem_limit: 128m
     container_name: backend
     environment:
       - REDIS_HOST=$REDIS_HOST
@@ -24,7 +22,6 @@ services:
     build:
       context: ./worker
       dockerfile: Dockerfile
-    mem_limit: 128m
     container_name: worker
     environment:
       - REDIS_HOST=$REDIS_HOST
@@ -36,7 +33,6 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    mem_limit: 128m
     container_name: nginx
     ports:
       - '80:80'
