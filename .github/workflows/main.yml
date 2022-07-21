@@ -57,8 +57,8 @@ jobs:
           flags: 'g'
 
       - name: deploy to EB
-        uses: einaregilsson/beanstalk-deploy@v20
         run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        uses: einaregilsson/beanstalk-deploy@v20
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
